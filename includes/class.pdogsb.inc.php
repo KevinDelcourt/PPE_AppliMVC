@@ -306,6 +306,38 @@ class PdoGsb
         }
         return $boolReturn;
     }
+    
+    /**
+     * Teste si une fiche du mois passé est encore en cours
+     * 
+     * Si oui alors il s'agit de la la première validation du mois par le service comptable
+     *
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return vrai ou faux
+     * 
+     */
+    public function estPremierValidationMois($mois)
+    {
+        //Calcul du mois - 1
+        $moisPasse = getMoisAnterieur($mois); 
+                
+        $boolReturn = true;
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fichefrais.mois FROM fichefrais '
+            . 'WHERE fichefrais.mois = :unMois '
+            . 'AND fichefrais.idetat = "CR"'
+        );
+        $requetePrepare->bindParam(':unMois', $moisPasse, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        
+        //Si il n'y a aucune fiche en cours pour le mois dernier alors on a passé l'étape de cloture lors de la première validation du mois.
+        if (!$requetePrepare->fetch()) {
+            $boolReturn = false;
+        }
+        
+        return $boolReturn;
+    }
 
     /**
      * Retourne le dernier mois en cours d'un visiteur
@@ -505,6 +537,32 @@ class PdoGsb
         );
         $requetePrepare->bindParam(':unEtat', $etat, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    
+    /**
+     * Modifie l'état et la date de modification de toutes les fiches de frais pour un mois et un etat particulier.
+     * 
+     * 
+     * Modifie le champ idEtat et met la date de modif à aujourd'hui. Est utilisé pour la cloture générale du service comptable.
+     *
+     * @param String $idEtat     ID de l'état à modifier
+     * @param String $mois       Mois sous la forme aaaamm
+     * @param String $newEtat       Nouvel état des fiches modifiées
+     *
+     * @return null
+     */
+    public function majEtatGroupee($idEtat, $mois, $newEtat)
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE ficheFrais '
+            . 'SET idetat = :unNouvelEtat, datemodif = now() '
+            . 'WHERE fichefrais.idetat = :unIdEtat '
+            . 'AND fichefrais.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unNouvelEtat', $newEtat, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdEtat', $idEtat, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }

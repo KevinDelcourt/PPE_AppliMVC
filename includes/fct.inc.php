@@ -249,3 +249,23 @@ function nbErreurs()
         return count($_REQUEST['erreurs']);
     }
 }
+
+
+/**
+ * Retoune le mois antérieur au mois passé en paramètre au format aaaamm
+ *
+ * @param String $mois un mois au format aaaamm
+ * 
+ * @return le mois d'avant au format aaaamm
+ * 
+ */
+function getMoisAnterieur($mois){
+    
+    //On passe  par l'objet php DateTime pour ne pas se soucier des erreurs
+    $dateMois = DateTime::createFromFormat('Ym', $mois);
+    
+    $dateMois ->modify('-1 month');
+    
+    return $dateMois->format('Ym');
+
+}

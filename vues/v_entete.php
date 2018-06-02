@@ -72,7 +72,7 @@
                             <?php if ($_SESSION['poste'] == 'Comptable') { ?>
                             
                             <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=validerFrais&action=afficherFiches">
+                                <a href="index.php?uc=validerFrais&action=choixFiches">
                                     <span class="glyphicon glyphicon-ok"></span>
                                     Valider les frais
                                 </a>

@@ -53,7 +53,7 @@
                         <!-- MENU DU COMPTABLE -->
                         <?php if ($_SESSION['poste'] == 'Comptable') { ?>
                             
-                        <a href="index.php?uc=validerFrais&action=afficherFiches"
+                        <a href="index.php?uc=validerFrais&action=choixFiches"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-ok"></span>
                             <br>Valider les fiches de frais</a>

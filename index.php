@@ -32,14 +32,18 @@ case 'connexion':
     break;
 case 'accueil':
     include 'controleurs/c_accueil.php';
-    
-    
     break;
 case 'gererFrais':
     include 'controleurs/c_gererFrais.php';
     break;
 case 'etatFrais':
     include 'controleurs/c_etatFrais.php';
+    break;
+case 'validerFrais':
+    include 'controleurs/c_validerFrais.php';
+    break;
+case 'suivrePaiements':
+    //include 'controleurs/c_etatFrais.php';
     break;
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
