@@ -16,9 +16,9 @@
 ?>
 <div id="accueil">
     <h2>
-        Gestion des frais<small> - Visiteur : 
+        Gestion des frais<small> - 
             <?php 
-            echo $_SESSION['prenom'] . ' ' . $_SESSION['nom']
+            echo $_SESSION['poste'].' : '.$_SESSION['prenom'] . ' ' . $_SESSION['nom']
             ?></small>
     </h2>
 </div>
