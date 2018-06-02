@@ -49,6 +49,10 @@
                                     Accueil
                                 </a>
                             </li>
+                            
+                            <!-- MENU DU VISITEUR -->
+                            <?php if ($_SESSION['poste'] == 'Visiteur') { ?>
+                            
                             <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=gererFrais&action=saisirFrais">
                                     <span class="glyphicon glyphicon-pencil"></span>
@@ -61,6 +65,27 @@
                                     Afficher mes fiches de frais
                                 </a>
                             </li>
+                            
+                            <?php } ?>
+                            
+                            <!-- MENU DU COMPTABLE -->
+                            <?php if ($_SESSION['poste'] == 'Comptable') { ?>
+                            
+                            <li <?php if ($uc == 'validerFrais') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=validerFrais&action=afficherFiches">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    Valider les frais
+                                </a>
+                            </li>
+                            <li <?php if ($uc == 'suivrePaiements') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=suivrePaiements&action=afficherFiches">
+                                    <span class="glyphicon glyphicon-euro"></span>
+                                    Suivre les paiements
+                                </a>
+                            </li>
+                            
+                            <?php } ?>
+                            
                             <li 
                             <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=deconnexion&action=demandeDeconnexion">

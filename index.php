@@ -32,6 +32,8 @@ case 'connexion':
     break;
 case 'accueil':
     include 'controleurs/c_accueil.php';
+    
+    
     break;
 case 'gererFrais':
     include 'controleurs/c_gererFrais.php';

@@ -22,6 +22,7 @@
             ?></small>
     </h2>
 </div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-primary">
@@ -34,6 +35,10 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
+                        
+                        <!-- MENU DU VISITEUR -->
+                        <?php if ($_SESSION['poste'] == 'Visiteur') { ?>
+                        
                         <a href="index.php?uc=gererFrais&action=saisirFrais"
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-pencil"></span>
@@ -42,6 +47,24 @@
                            class="btn btn-primary btn-lg" role="button">
                             <span class="glyphicon glyphicon-list-alt"></span>
                             <br>Afficher mes fiches de frais</a>
+                        
+                        <?php } ?>
+                        
+                        <!-- MENU DU COMPTABLE -->
+                        <?php if ($_SESSION['poste'] == 'Comptable') { ?>
+                            
+                        <a href="index.php?uc=validerFrais&action=afficherFiches"
+                           class="btn btn-success btn-lg" role="button">
+                            <span class="glyphicon glyphicon-ok"></span>
+                            <br>Valider les fiches de frais</a>
+                        
+                        <a href="index.php?uc=suivrePaiements&action=afficherFiches"
+                           class="btn btn-primary btn-lg" role="button">
+                            <span class="glyphicon glyphicon-euro"></span>
+                            <br>Suivre les paiements</a>
+                        
+                        <?php } ?>
+                            
                     </div>
                 </div>
             </div>
