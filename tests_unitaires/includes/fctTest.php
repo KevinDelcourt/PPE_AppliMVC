@@ -73,4 +73,45 @@ class FctTest extends PHPUnit_Framework_TestCase {
                 '201608', getMoisAnterieur('201609')
         );
     }
+    
+    
+    /**
+     * test de la fonction nbJustificatifValide($nb)
+     */
+    public function testNbJustificatifValide0() {
+        
+        $this->assertEquals(
+                true, nbJustificatifValide('12')
+        );
+    }
+    
+    /**
+     * test de la fonction nbJustificatifValide($nb)
+     */
+    public function testNbJustificatifValide1() {
+        
+        $this->assertEquals(
+                true, nbJustificatifValide('8')
+        );
+    }
+    
+    /**
+     * test de la fonction nbJustificatifValide($nb)
+     */
+    public function testNbJustificatifValide2() {
+        
+        $this->assertEquals(
+                false, nbJustificatifValide('aqdazd')
+        );
+    }
+    
+    /**
+     * test de la fonction nbJustificatifValide($nb)
+     */
+    public function testNbJustificatifValide3() {
+        
+        $this->assertEquals(
+                true, nbJustificatifValide('')
+        );
+    }
 }

@@ -237,6 +237,21 @@ function ajouterErreur($msg)
 }
 
 /**
+ * Ajoute le libellé d'une information au tableau des informations
+ *
+ * @param String $msg Libellé de l'info
+ *
+ * @return null
+ */
+function ajouterInfo($msg)
+{
+    if (!isset($_REQUEST['info'])) {
+        $_REQUEST['info'] = array();
+    }
+    $_REQUEST['info'][] = $msg;
+}
+
+/**
  * Retoune le nombre de lignes du tableau des erreurs
  *
  * @return Integer le nombre d'erreurs
@@ -268,4 +283,16 @@ function getMoisAnterieur($mois){
     
     return $dateMois->format('Ym');
 
+}
+
+/**
+ * Vérifie que le nombre justificatif soumis soit un nombre valide
+ *
+ * @param int $nbJustificatif Tableau d'entier
+ *
+ * @return Boolean vrai ou faux
+ */
+function nbJustificatifValide($nbJustificatif)
+{
+    return estEntierPositif($nbJustificatif);
 }
