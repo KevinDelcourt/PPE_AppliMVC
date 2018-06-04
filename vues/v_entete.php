@@ -78,7 +78,7 @@
                                 </a>
                             </li>
                             <li <?php if ($uc == 'suivrePaiements') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=suivrePaiements&action=afficherFiches">
+                                <a href="index.php?uc=suivrePaiements&action=choixFiches">
                                     <span class="glyphicon glyphicon-euro"></span>
                                     Suivre les paiements
                                 </a>

@@ -193,6 +193,7 @@ class PdoGsb
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT fraisforfait.id as idfrais, '
             . 'fraisforfait.libelle as libelle, '
+            . 'fraisforfait.montant as montant, '
             . 'lignefraisforfait.quantite as quantite '
             . 'FROM lignefraisforfait '
             . 'INNER JOIN fraisforfait '
@@ -252,6 +253,54 @@ class PdoGsb
             $requetePrepare->bindParam(':idFrais', $unIdFrais, PDO::PARAM_STR);
             $requetePrepare->execute();
         }
+    }
+    
+    
+    /**
+     * Met à jour le champs montantvalide pour le visiteur/mois passé en paramètre
+     * 
+     * Calcul le montant en allant chercher les frais dans la bdd.
+     * Ne prends pas en compte les frais refusés
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     *
+     * @return null
+     */
+    public function majMontantValide($idVisiteur, $mois)
+    {
+        $lesFraisForfait = $this -> getLesFraisForfait($idVisiteur, $mois);
+        $lesFraisHF = $this -> getLesFraisHorsForfait($idVisiteur, $mois);
+        
+        //Calcul du total
+        $total = 0;
+        foreach($lesFraisForfait as $leFraisForfait){
+            $total += $leFraisForfait['montant']*$leFraisForfait['quantite'];
+        }
+        foreach($lesFraisHF as $leFraisHF){
+            
+            //On regarde si le libelle du frais commence par 'REFUSE-' pour savoir si on le prends en compte
+            $libelle = substr( $leFraisHF['libelle'] , 0,7);
+            
+            if($libelle != 'REFUSE-'){
+                
+                $total += $leFraisHF['montant'];
+                
+            }
+            
+        }
+   
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'UPDATE fichefrais '
+            . 'SET fichefrais.montantvalide = :unTotal '
+            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+            . 'AND fichefrais.mois = :unMois '
+        );
+
+        $requetePrepare->bindParam(':unTotal', $total, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
     }
     
     /**
@@ -584,20 +633,22 @@ class PdoGsb
     }
     
     /**
-     * Retourne les mois pour lesquel il existe des fiches cloturées à valider
+     * Retourne les mois pour lesquel il existe des fiches à l'état en paramètre
      *
-     *
+     * @param String $idEtat l'id de l'etat à rechercher
+     * 
      * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
      *         l'année et le mois correspondant
      */
-    public function getLesMoisPourValidation()
+    public function getLesMoisAvecEtat($idEtat)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT fichefrais.mois AS mois FROM fichefrais '
-            . 'WHERE fichefrais.idetat = "CL" '
+            . 'WHERE fichefrais.idetat = :unIdEtat '
             . 'GROUP BY fichefrais.mois '
             . 'ORDER BY fichefrais.mois desc '
         );
+        $requetePrepare->bindParam(':unIdEtat', $idEtat, PDO::PARAM_STR);
         $requetePrepare->execute();
         $lesMois = array();
         while ($laLigne = $requetePrepare->fetch()) {
@@ -614,20 +665,21 @@ class PdoGsb
     }
     
     /**
-     * Retourne les visiteurs pour lesquels il existe une fiche à l'état cloturé
+     * Retourne les visiteurs pour lesquels il existe une fiche à l'état en paramètre
      *
-     *
+     * @param String $idEtat l'id de l'etat à rechercher
+     * 
      * @return un tableau associatif de clé avec id/nom/prenom du visiteur
      */
-    public function getLesVisiteursPourValidation()
+    public function getLesVisiteursAvecEtat($idEtat)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom , visiteur.prenom AS prenom'.
                 ' FROM fichefrais JOIN visiteur ON fichefrais.idvisiteur = visiteur.id'.
-                ' WHERE fichefrais.idetat = "CL"'.
-                ' GROUP BY visiteur.id'.
-                ' ORDER BY visiteur.nom ASC'
+                ' WHERE fichefrais.idetat = :unIdEtat'.
+                ' GROUP BY visiteur.id ORDER BY visiteur.nom ASC'
         );
+        $requetePrepare->bindParam(':unIdEtat', $idEtat, PDO::PARAM_STR);
         $requetePrepare->execute();
         $lesVisiteurs = array();
         while ($laLigne = $requetePrepare->fetch()) {

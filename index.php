@@ -43,7 +43,7 @@ case 'validerFrais':
     include 'controleurs/c_validerFrais.php';
     break;
 case 'suivrePaiements':
-    //include 'controleurs/c_etatFrais.php';
+    include 'controleurs/c_suiviPaiement.php';
     break;
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';

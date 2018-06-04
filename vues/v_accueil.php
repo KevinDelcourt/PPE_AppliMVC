@@ -58,7 +58,7 @@
                             <span class="glyphicon glyphicon-ok"></span>
                             <br>Valider les fiches de frais</a>
                         
-                        <a href="index.php?uc=suivrePaiements&action=afficherFiches"
+                        <a href="index.php?uc=suivrePaiements&action=choixFiches"
                            class="btn btn-primary btn-lg" role="button">
                             <span class="glyphicon glyphicon-euro"></span>
                             <br>Suivre les paiements</a>

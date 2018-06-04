@@ -13,7 +13,6 @@
 
 
 $mois = getMois(date('d/m/Y'));
-
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 
 //Avant tout on regarde si on a besoin de faire la cloture du mois dernier
@@ -29,10 +28,10 @@ switch ($action){
     //Demander au comptable de choisir une fiche 
     case 'choixFiches':
         //On récupère la liste des visiteurs ayant une fiche à valider
-        $lesVisiteurs = $pdo->getLesVisiteursPourValidation();
+        $lesVisiteurs = $pdo->getLesVisiteursAvecEtat('CL');
        
         //Et la liste des mois pour lesquels il a une fiche à valider
-        $lesMois = $pdo->getLesMoisPourValidation();
+        $lesMois = $pdo->getLesMoisAvecEtat('CL');
         
         //Valeur absurde pour que dans les tests suivant on ne sélectionne aucun mois/visiteur dans la liste,
         // ainsi le premier sera naturellement sélectionné
@@ -46,8 +45,8 @@ switch ($action){
         $idVisiteur = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
         $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
         
-        $lesVisiteurs = $pdo->getLesVisiteursPourValidation();
-        $lesMois = $pdo->getLesMoisPourValidation();
+        $lesVisiteurs = $pdo->getLesVisiteursAvecEtat('CL');
+        $lesMois = $pdo->getLesMoisAvecEtat('CL');
         
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $idVisiteur;
@@ -69,8 +68,8 @@ switch ($action){
         $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
         $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
         
-        $lesVisiteurs = $pdo->getLesVisiteursPourValidation();
-        $lesMois = $pdo->getLesMoisPourValidation();
+        $lesVisiteurs = $pdo->getLesVisiteursAvecEtat('CL');
+        $lesMois = $pdo->getLesMoisAvecEtat('CL');
         
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $idVisiteur;
@@ -104,8 +103,8 @@ switch ($action){
         $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
         $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
         
-        $lesVisiteurs = $pdo->getLesVisiteursPourValidation();
-        $lesMois = $pdo->getLesMoisPourValidation();
+        $lesVisiteurs = $pdo->getLesVisiteursAvecEtat('CL');
+        $lesMois = $pdo->getLesMoisAvecEtat('CL');
         
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $idVisiteur;
@@ -163,8 +162,8 @@ switch ($action){
         $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
         $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
         
-        $lesVisiteurs = $pdo->getLesVisiteursPourValidation();
-        $lesMois = $pdo->getLesMoisPourValidation();
+        $lesVisiteurs = $pdo->getLesVisiteursAvecEtat('CL');
+        $lesMois = $pdo->getLesMoisAvecEtat('CL');
         
         $moisASelectionner = $leMois;
         $visiteurASelectionner = $idVisiteur;
@@ -199,14 +198,15 @@ switch ($action){
         $idVisiteur = filter_input(INPUT_POST, 'idVisiteur', FILTER_SANITIZE_STRING);
         $leMois = filter_input(INPUT_POST, 'leMois', FILTER_SANITIZE_STRING);
         
-        $lesVisiteurs = $pdo->getLesVisiteursPourValidation();
-        $lesMois = $pdo->getLesMoisPourValidation();
+        $lesVisiteurs = $pdo->getLesVisiteursAvecEtat('CL');
+        $lesMois = $pdo->getLesMoisAvecEtat('CL');
         
         $moisASelectionner = '000000';
         $visiteurASelectionner = 'a00000';
         
         include 'vues/v_listeFichesValidation.php';
         
+        $pdo -> majMontantValide($idVisiteur,$leMois);
         $pdo -> majEtatFicheFrais($idVisiteur,$leMois,'VA');
         
         ajouterInfo('La fiche a été validée et mise en paiement, vous pouvez maintenant saisir le suivi du paiement de cette fiche.');
