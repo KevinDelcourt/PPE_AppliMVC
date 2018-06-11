@@ -12,6 +12,16 @@
 
 require '../includes/fct.inc.php';
 
+/**
+ * Classe de test du fichier fct.inc.php
+ *
+ * Seules les fonctions codées lors du développement ont été testées
+ *
+ *
+ * @category  PPE
+ * @package   GSB
+ * @author    Kévin delcourt
+ */
 class FctTest extends PHPUnit_Framework_TestCase {
 
     /**

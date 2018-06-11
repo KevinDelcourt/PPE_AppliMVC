@@ -35,7 +35,6 @@
  * @version   Release: 1.0
  * @link      http://www.php.net/manual/fr/book.pdo.php PHP Data Objects sur php.net
  */
-
 class PdoGsb
 {
     private static $serveur = 'mysql:host=localhost';
