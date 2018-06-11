@@ -53,7 +53,7 @@ case 'valideConnexion':
     //Au sortir de cette étape si on n'a pas encore défini de variable 'id' cela signifie que les identifiants sont incorrect
     if( !isset($id) ){
         
-        ajouterErreur('Login ou mot de passe incorrect');
+        ajouterErreur('Mauvais login ou mot de passe');
         include 'vues/v_erreurs.php';
         include 'vues/v_connexion.php';
         
