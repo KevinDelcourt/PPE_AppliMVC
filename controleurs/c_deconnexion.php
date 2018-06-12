@@ -21,9 +21,11 @@ if (!$uc) {
 
 switch ($action) {
 case 'demandeDeconnexion':
+    include 'vues/v_entete.php';
     include 'vues/v_deconnexion.php';
     break;
 case 'valideDeconnexion':
+    include 'vues/v_entete.php';
     if (estConnecte()) {
         include 'vues/v_deconnexion.php';
     } else {
@@ -33,6 +35,7 @@ case 'valideDeconnexion':
     }
     break;
 default:
+    include 'vues/v_entete.php';
     include 'vues/v_connexion.php';
     break;
 }

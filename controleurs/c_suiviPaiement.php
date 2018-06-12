@@ -8,7 +8,7 @@
  * @package   GSB
  * @author    Kévin DELCOURT
  */
-
+include 'vues/v_entete.php';
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 
 switch($action){

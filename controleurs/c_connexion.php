@@ -14,6 +14,7 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
+
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
 if (!$uc) {
     $uc = 'demandeconnexion';
@@ -21,6 +22,7 @@ if (!$uc) {
 
 switch ($action) {
 case 'demandeConnexion':
+    include 'vues/v_entete.php';
     include 'vues/v_connexion.php';
     break;
 case 'valideConnexion':
@@ -53,7 +55,8 @@ case 'valideConnexion':
     //Au sortir de cette étape si on n'a pas encore défini de variable 'id' cela signifie que les identifiants sont incorrect
     if( !isset($id) ){
         
-        ajouterErreur('Mauvais login ou mot de passe');
+        ajouterErreur('Login ou mot de passe incorrect');
+        include 'vues/v_entete.php';
         include 'vues/v_erreurs.php';
         include 'vues/v_connexion.php';
         
@@ -66,6 +69,7 @@ case 'valideConnexion':
     
     break;
 default:
+    include 'vues/v_entete.php';
     include 'vues/v_connexion.php';
     break;
 }
